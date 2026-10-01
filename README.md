@@ -12,6 +12,7 @@ Unstructured ticket text in. Structured decisions out:
 
 - `setup_tickets.sql` — creates `main.mehdi_aidecide.support_tickets`
 - `run_ai_decide.sql` — classifies each ticket in one SQL query
+- `ai_decide_architecture.html` — simple flow diagram: tickets → `ai_decide()` → decisions
 
 ## Run
 

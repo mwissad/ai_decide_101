@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ai_decide Explained</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07080c;
+      --brick: #ff3621;
+      --ink: #111318;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(800px 360px at 50% -8%, rgba(255,54,33,0.18), transparent 60%),
+        var(--bg);
+      color: #f4f4f5;
+      font-family: "DM Sans", sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 40px 24px;
+    }
+
+    .poster { width: min(1180px, 100%); }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    .hook {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .hook-pill {
+      background: var(--brick);
+      color: #fff;
+      border-radius: 999px;
+      padding: 10px 26px;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      box-shadow: 0 0 32px rgba(255,54,33,0.45);
+    }
+
+    .hook-pill:nth-child(2) {
+      background: #e8c547;
+      color: #1a1608;
+      box-shadow: 0 0 32px rgba(232,197,71,0.35);
+    }
+
+    .hook-note {
+      width: 100%;
+      text-align: center;
+      color: #b8bcc6;
+      font-size: 15px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 56px 1.2fr 56px 1fr;
+      align-items: center;
+      gap: 0;
+    }
+
+    .col { display: flex; flex-direction: column; gap: 12px; }
+
+    .label {
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      text-align: center;
+      padding: 8px 14px;
+      font-weight: 650;
+      font-size: 15px;
+    }
+
+    .card {
+      border-radius: 20px;
+      padding: 14px 16px;
+      min-height: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .red { background: var(--brick); color: #fff; }
+    .white { background: #fff; color: var(--ink); }
+    .gold { background: #e8c547; color: #1a1608; }
+    .dark {
+      background: linear-gradient(180deg, #3a100d, #1c0908);
+      border: 1px solid rgba(255,54,33,0.4);
+    }
+
+    .card b { font-size: 15px; font-weight: 650; }
+    .card span {
+      display: block;
+      margin-top: 3px;
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    .engine {
+      border-radius: 24px;
+      padding: 22px 20px;
+      text-align: center;
+    }
+
+    .engine h2 {
+      background: #fff;
+      color: var(--ink);
+      display: inline-block;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .qs { display: flex; flex-direction: column; gap: 10px; }
+
+    .q {
+      background: rgba(0,0,0,0.28);
+      border-radius: 14px;
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .q code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      color: #ffb4a8;
+    }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .arrow svg { width: 48px; overflow: visible; }
+
+    footer {
+      margin-top: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #b8bcc6;
+      font-size: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 650;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    @media (max-width: 860px) {
+      .flow { grid-template-columns: 1fr; gap: 8px; }
+      .arrow { transform: rotate(90deg); height: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster">
+    <h1>ai_decide Explained</h1>
+    <div class="hook">
+      <span class="hook-pill">Cheaper</span>
+      <span class="hook-pill">Faster</span>
+      <span class="hook-note">than using an LLM for the same decisions</span>
+    </div>
+
+    <section class="flow">
+      <div class="col">
+        <div class="label">Unstructured tickets</div>
+        <div class="card red"><b>TCK-1042</b><span>Charged twice. Refund now.</span></div>
+        <div class="card red"><b>TCK-1043</b><span>Checkout API is down.</span></div>
+        <div class="card red"><b>TCK-1044</b><span>Locked out of admin.</span></div>
+        <div class="card red"><b>TCK-1045</b><span>Invoice question. No rush.</span></div>
+        <div class="card red"><b>TCK-1046</b><span>Dashboards gone. Legal.</span></div>
+      </div>
+
+      <div class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 56 24" fill="none">
+          <path d="M2 12h42" stroke="#ff3621" stroke-width="3" stroke-linecap="round"/>
+          <path d="M36 4l16 8-16 8" fill="#ff3621"/>
+        </svg>
+      </div>
+
+      <div class="engine dark">
+        <h2>ai_decide()</h2>
+        <div class="qs">
+          <div class="q"><b>Which team?</b></div>
+          <div class="q"><b>How urgent?</b></div>
+          <div class="q"><b>Need a human?</b></div>
+        </div>
+      </div>
+
+      <div class="arrow" aria-hidden="true">
+        <svg viewBox="0 0 56 24" fill="none">
+          <path d="M2 12h42" stroke="#e8c547" stroke-width="3" stroke-linecap="round"/>
+          <path d="M36 4l16 8-16 8" fill="#e8c547"/>
+        </svg>
+      </div>
+
+      <div class="col">
+        <div class="label">Structured decisions</div>
+        <div class="card white"><b>TCK-1042</b><span>Billing · Time-sensitive · Human</span></div>
+        <div class="card gold"><b>TCK-1043</b><span>Technical · Critical · Human</span></div>
+        <div class="card white"><b>TCK-1044</b><span>Account · Critical · Human</span></div>
+        <div class="card white"><b>TCK-1045</b><span>Billing · Routine</span></div>
+        <div class="card gold"><b>TCK-1046</b><span>Technical · Critical · Human</span></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#FF3621" d="M.95 14.184L12 20.403l9.919-5.55v2.21L12 22.662l-10.484-5.96-.565.308v.77L12 24l11.05-6.218v-4.317l-.515-.309L12 19.118l-9.867-5.653v-2.21L12 16.805l11.05-6.218V6.32l-.515-.308L12 11.974 2.647 6.681 12 1.388l7.76 4.368.668-.411v-.514L12 0 .95 6.27v.72L12 13.207l9.919-5.55v2.26L12 15.52 1.516 9.56l-.565.308Z"/>
+        </svg>
+        databricks
+      </div>
+      <div>Text in → decisions out. On governed data.</div>
+    </footer>
+  </main>
+</body>
+</html>
